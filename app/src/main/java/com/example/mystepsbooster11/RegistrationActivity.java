@@ -39,28 +39,31 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextView userLogin;
     private FirebaseAuth firebaseAuth;
     private ImageView userProfilePic;
-    String email, name, age, password;
+    String email, name, password;
     private FirebaseStorage firebaseStorage;
     private static int PICK_IMAGE = 123;
     Uri imagePath;
     private StorageReference storageReference;
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null){
+            imagePath = data.getData();
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
+                userProfilePic.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        //setupUIViews();
-
-
-            userName = (EditText)findViewById(R.id.etUserName);
-            userPassword = (EditText)findViewById(R.id.etUserPassword);
-            userEmail = (EditText)findViewById(R.id.etUserEmail);
-            regButton = (Button)findViewById(R.id.btnRegister);
-            userLogin = (TextView)findViewById(R.id.tvUserLogin);
-            //userAge = (EditText)findViewById(R.id.etAge);
-            userProfilePic = (ImageView)findViewById(R.id.ivProfile);
+        setupUIViews();
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
@@ -92,11 +95,11 @@ public class RegistrationActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
                             if(task.isSuccessful()){
-                                //sendEmailVerification();
+                                sendEmailVerification();
                                 sendUserData();
+
                                 Toast.makeText(RegistrationActivity.this, "Successfully Registered, Upload complete!", Toast.LENGTH_SHORT).show();
-                                finish();
-                                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                                startActivity(new Intent(RegistrationActivity.this, SecondActivity.class));
                             }else{
                                 Toast.makeText(RegistrationActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
                             }
@@ -110,21 +113,20 @@ public class RegistrationActivity extends AppCompatActivity {
         userLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                startActivity(new Intent(RegistrationActivity.this, SecondActivity.class));
             }
         });
 
     }
 
-   /** private void setupUIViews(){
+    private void setupUIViews(){
         userName = (EditText)findViewById(R.id.etUserName);
         userPassword = (EditText)findViewById(R.id.etUserPassword);
         userEmail = (EditText)findViewById(R.id.etUserEmail);
         regButton = (Button)findViewById(R.id.btnRegister);
         userLogin = (TextView)findViewById(R.id.tvUserLogin);
-        userAge = (EditText)findViewById(R.id.etAge);
         userProfilePic = (ImageView)findViewById(R.id.ivProfile);
-    }**/
+    }
 
     private Boolean validate(){
         Boolean result = false;
@@ -132,10 +134,9 @@ public class RegistrationActivity extends AppCompatActivity {
         name = userName.getText().toString();
         password = userPassword.getText().toString();
         email = userEmail.getText().toString();
-        age = userAge.getText().toString();
 
-// || imagePath == null
-        if(name.isEmpty() || password.isEmpty() || email.isEmpty() || age.isEmpty()){
+
+        if(name.isEmpty() || password.isEmpty() || email.isEmpty() || imagePath == null){
             Toast.makeText(this, "Please enter all the details", Toast.LENGTH_SHORT).show();
         }else{
             result = true;
@@ -154,9 +155,9 @@ public class RegistrationActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         sendUserData();
                         Toast.makeText(RegistrationActivity.this, "Successfully Registered, Verification mail sent!", Toast.LENGTH_SHORT).show();
-                        firebaseAuth.signOut();
+                        //firebaseAuth.signOut();
                         finish();
-                        startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+                        startActivity(new Intent(RegistrationActivity.this, SecondActivity.class));
                     }else{
                         Toast.makeText(RegistrationActivity.this, "Verification mail has'nt been sent!", Toast.LENGTH_SHORT).show();
                     }
@@ -181,20 +182,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 Toast.makeText(RegistrationActivity.this, "Upload successful!", Toast.LENGTH_SHORT).show();
             }
         });
-        UserProfile userProfile = new UserProfile( email, name);
+        UserProfile userProfile = new UserProfile(email, name);
         myRef.setValue(userProfile);
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PICK_IMAGE && resultCode == RESULT_OK && data.getData() != null){
-            imagePath = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imagePath);
-                userProfilePic.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

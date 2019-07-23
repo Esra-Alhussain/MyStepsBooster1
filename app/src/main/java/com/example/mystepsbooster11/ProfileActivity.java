@@ -26,7 +26,7 @@ import com.google.firebase.storage.StorageReference;
 public class ProfileActivity extends AppCompatActivity {
 
     private ImageView profilePic;
-    private TextView profileName, profileAge, profileEmail;
+    private TextView profileName, profileEmail;
     private Button profileUpdate, changePassword;
     private FirebaseAuth firebaseAuth;
     private FirebaseDatabase firebaseDatabase;
@@ -39,9 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         profilePic = findViewById(R.id.ivProfilePic);
         profileName = findViewById(R.id.tvProfileName);
-        profileAge = findViewById(R.id.tvProfileAge);
         profileEmail = findViewById(R.id.tvProfileEmail);
-        profileUpdate = findViewById(R.id.btnProfileUpdate);
         changePassword = findViewById(R.id.btnChangePassword);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -65,7 +63,6 @@ public class ProfileActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
                 profileName.setText("Name: " + userProfile.getUserName());
-                profileAge.setText("Age: " + userProfile.getUserAge());
                 profileEmail.setText("Email: " + userProfile.getUserEmail());
             }
 
@@ -82,12 +79,12 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-               // startActivity(new Intent(ProfileActivity.this, UpdatePassword.class));
-            }
-        });
+       // changePassword.setOnClickListener(new View.OnClickListener() {
+          //  @Override
+            //public void onClick(View view) {
+               //startActivity(new Intent(ProfileActivity.this, UpdatePassword.class));
+           // }
+      //  });
     }
 
     @Override

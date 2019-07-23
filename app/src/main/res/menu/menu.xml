@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
         android:id="@+id/profileMenu"
         android:orderInCategory="100"
@@ -10,15 +11,48 @@
     </item>
 
     <item
-        android:id="@+id/refreshMenu"
+        android:id="@+id/challengeTeam"
         android:orderInCategory="200"
+        app:showAsAction="never"
+        android:title="challengeTeam">
+    </item>
+
+    <item
+        android:id="@+id/challengeYourself"
+        android:orderInCategory="300"
+        app:showAsAction="never"
+        android:title="challenge Yourself">
+    </item>
+    <item
+        android:id="@+id/Freinds"
+        android:orderInCategory="400"
+        app:showAsAction="always"
+        android:title="Freinds">
+    </item>
+
+    <item
+        android:id="@+id/HeartValue"
+        android:orderInCategory="500"
+        app:showAsAction="never"
+        android:title="Heart Value">
+    </item>
+    <item
+        android:id="@+id/Badges"
+        android:orderInCategory="600"
+        app:showAsAction="never"
+        android:title="Badges">
+    </item>
+    <item
+        android:id="@+id/refreshMenu"
+        android:orderInCategory="700"
         app:showAsAction="never"
         android:title="Settings">
     </item>
     <item
         android:id="@+id/logoutMenu"
-        android:orderInCategory="300"
-        app:showAsAction="never"
+        android:orderInCategory="800"
+        app:showAsAction="always"
         android:title="Logout">
     </item>
+
 </menu>

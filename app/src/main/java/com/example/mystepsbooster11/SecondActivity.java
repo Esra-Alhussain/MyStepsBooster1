@@ -23,7 +23,7 @@ public class SecondActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        logout = (Button)findViewById(R.id.btnLogout);
+        //logout = (Button)findViewById(R.id.btnLogout);
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,10 +53,33 @@ public class SecondActivity extends AppCompatActivity {
                 Logout();
                 break;
             }
-            case R.id.profileMenu:
+            case R.id.challengeTeam:{
+                startActivity(new Intent(SecondActivity.this, TeamChallenge.class));
+                break;
+
+        }
+            case R.id.challengeYourself:{
+                startActivity(new Intent(SecondActivity.this, Challengeyourself.class));
+                break;
+
+            }
+
+            //case R.id.Freinds:{
+             //   startActivity(new Intent(SecondActivity.this, ProfileActivity.class));
+              //  break;
+
+           // }
+
+            case R.id.profileMenu:{
                 startActivity(new Intent(SecondActivity.this, ProfileActivity.class));
                 break;
 
+            }
+            case R.id.refreshMenu:{
+                startActivity(new Intent(SecondActivity.this, Settings.class));
+                break;
+
+            }
         }
         return super.onOptionsItemSelected(item);
     }
