@@ -113,7 +113,7 @@ public class RegistrationActivity extends AppCompatActivity {
         userLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RegistrationActivity.this, SecondActivity.class));
+                startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
             }
         });
 
@@ -155,9 +155,8 @@ public class RegistrationActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         sendUserData();
                         Toast.makeText(RegistrationActivity.this, "Successfully Registered, Verification mail sent!", Toast.LENGTH_SHORT).show();
-                        //firebaseAuth.signOut();
+                        firebaseAuth.signOut();
                         finish();
-                        startActivity(new Intent(RegistrationActivity.this, SecondActivity.class));
                     }else{
                         Toast.makeText(RegistrationActivity.this, "Verification mail has'nt been sent!", Toast.LENGTH_SHORT).show();
                     }
